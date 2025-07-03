@@ -1,9 +1,8 @@
-// src/components/ProductList.tsx
 import React, { useEffect, useState } from "react";
-import type { Product } from "../types/Product";
-import ProductCard from "././ProductCard.tsx";
+import type { Product } from "../types/Product.ts";
+import ProductCard from "../components/ProductCard.tsx.tsx";
 
-const ProductList: React.FC = () => {
+const Home: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -31,4 +30,4 @@ const ProductList: React.FC = () => {
   );
 };
 
-export default ProductList;
+export default Home;

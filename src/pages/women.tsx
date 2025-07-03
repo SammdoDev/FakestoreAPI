@@ -14,12 +14,12 @@ type Product = {
   };
 };
 
-const Electronics = () => {
+const Women = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch("https://fakestoreapi.com/products/category/electronics")
+    fetch("https://fakestoreapi.com/products/category/women's clothing")
       .then((res) => res.json())
       .then((data: Product[]) => {
         setProducts(data);
@@ -29,7 +29,9 @@ const Electronics = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4 text-orange-600">Electronics</h1>
+      <h1 className="text-2xl font-bold mb-4 text-orange-600">
+        Women clothing
+      </h1>
 
       {loading ? (
         <p>Loading...</p>
@@ -44,4 +46,4 @@ const Electronics = () => {
   );
 };
 
-export default Electronics;
+export default Women;
