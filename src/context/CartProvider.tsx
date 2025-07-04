@@ -21,7 +21,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         const index = prev.findIndex((p) => p.id === productAdded.id);
         if (index !== -1) {
           const updatedCart = [...prev];
-          updatedCart.splice(index, 1); // hapus item berdasarkan index
+          updatedCart.splice(index, 1);
           console.log("Dibatalkan:", productAdded.title);
           return updatedCart;
         }
@@ -41,7 +41,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         <div className="fixed inset-0 bg-black/50 z-50 flex flex-row items-center justify-center w-full h-full">
           <div className="bg-white p-6 rounded-xl shadow-xl w-80 relative ">
             <button
-              onClick={ () => closeModal()}
+              onClick={ () => closeModal(true)}
               className="absolute top-2 right-3 text-gray-400 hover:text-black text-xl"
             >
               &times;

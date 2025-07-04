@@ -50,16 +50,16 @@ const Home = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 space-x-4">
       <Slider {...settings} className="mb-8">
         <div>
-          <img src="src/assets/promo1.jpg" className="w-full" />
+          <img src="src/assets/promo1.jpg" className="w-full h-full md:h-[400px] object-contain" />
+        </div>
+        <div className="mx-4">
+          <img src="src/assets/promo2.jpg" className="w-full h-full md:h-[400px] object-contain" />
         </div>
         <div>
-          <img src="src/assets/promo2.jpg" className="w-full" />
-        </div>
-        <div>
-          <img src="src/assets/promo3.jpg" className="w-full" />
+          <img src="src/assets/promo3.jpg" className="w-full h-full md:h-[400px] object-contain" />
         </div>
       </Slider>
 

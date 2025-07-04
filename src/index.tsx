@@ -26,7 +26,7 @@ function Index() {
 
       const data = await res.json();
       setToken(data.access_token);
-      localStorage.setItem("token", data.access_token);
+      sessionStorage.setItem("token", data.access_token);
 
       navigate("/Home");
     } catch (err) {
