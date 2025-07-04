@@ -7,7 +7,7 @@ const Navbar = () => {
   const [isDropdownSettings, setIsDropdownSettings] = useState(false);
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav className="bg-white shadow-md sticky top-0 z-50 hidden md:block">
       <div className="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row md:items-center md:justify-between">
         <div className="text-xl font-bold text-orange-600">FakeStore</div>
 
@@ -32,6 +32,14 @@ const Navbar = () => {
               <ul className="absolute bg-white shadow-md mt-2 rounded w-44 p-2 space-y-1 z-10">
                 <li>
                   <Link
+                    to="/clothes"
+                    className="block px-3 py-1 hover:bg-orange-100 rounded"
+                  >
+                    Clothes
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     to="/electronics"
                     className="block px-3 py-1 hover:bg-orange-100 rounded"
                   >
@@ -40,26 +48,26 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Link
-                    to="/jewelery"
+                    to="/furniture"
                     className="block px-3 py-1 hover:bg-orange-100 rounded"
                   >
-                    Jewelery
+                    Furniture
                   </Link>
                 </li>
                 <li>
                   <Link
-                    to="/women"
+                    to="/shoes"
                     className="block px-3 py-1 hover:bg-orange-100 rounded"
                   >
-                    Women
+                    Shoes
                   </Link>
                 </li>
                 <li>
                   <Link
-                    to="/men"
+                    to="/miscellaneous"
                     className="block px-3 py-1 hover:bg-orange-100 rounded"
                   >
-                    Men's clothing
+                    Miscellaneous
                   </Link>
                 </li>
               </ul>

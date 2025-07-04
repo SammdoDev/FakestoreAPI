@@ -2,17 +2,14 @@ import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard.tsx";
 import type { Product, APIProduct } from "../types/Product";
 
-const Electronics = () => {
+const Furniture = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch("https://api.escuelajs.co/api/v1/products/?categorySlug=electronics")
+    fetch("https://api.escuelajs.co/api/v1/products/?categorySlug=furniture")
       .then((res) => res.json())
       .then((data: APIProduct[]) => {
-        // Jika hanya ingin tampilkan produk ID 2 saja, aktifkan filter ini:
-        // const filtered = data.filter((item) => item.id === 2);
-        // Tapi kalau ingin semua produk Electronics:
         const filtered = data;
 
         const adapted: Product[] = filtered.map((item) => ({
@@ -38,14 +35,14 @@ const Electronics = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Gagal mengambil produk kategori electronics:", err);
+        console.error("Gagal mengambil produk kategori Furniture:", err);
         setLoading(false);
       });
   }, []);
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4 text-orange-600">Electronics</h1>
+      <h1 className="text-2xl font-bold mb-4 text-orange-600">Furniture</h1>
 
       {loading ? (
         <p>Loading...</p>
@@ -60,4 +57,4 @@ const Electronics = () => {
   );
 };
 
-export default Electronics;
+export default Furniture;

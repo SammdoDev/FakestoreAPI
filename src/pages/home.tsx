@@ -1,31 +1,61 @@
-import React, { useEffect, useState } from "react";
-import type { Product } from "../types/Product.ts";
-import ProductCard from "../components/ProductCard.tsx.tsx";
+import { useEffect, useState } from "react";
+import ProductCard from "../components/ProductCard.tsx";
+import type { Product, APIProduct } from "../types/Product";
 
-const Home: React.FC = () => {
+const Home = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
+    fetch("https://api.escuelajs.co/api/v1/products")
       .then((res) => res.json())
-      .then((data: Product[]) => {
-        setProducts(data);
+      .then((data: APIProduct[]) => {
+        const filtered = data;
+
+        const adapted: Product[] = filtered.map((item) => ({
+          id: item.id,
+          title: item.title,
+          slug: item.title.toLowerCase().replace(/\s+/g, "-"),
+          price: item.price,
+          description: item.description,
+          image: item.images[0],
+          category: {
+            id: item.category.id,
+            name: item.category.name,
+            slug:
+              item.category.slug ??
+              item.category.name.toLowerCase().replace(/\s+/g, "-"),
+            image: item.category.image,
+            creationAt: item.category.creationAt,
+            updatedAt: item.category.updatedAt,
+          },
+        }));
+
+        setProducts(adapted);
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Error fetching products:", err);
+        console.error("Gagal mengambil produk kategori Home:", err);
         setLoading(false);
       });
   }, []);
 
-  if (loading) return <p className="text-center mt-8">Loading...</p>;
-
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 p-4">
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4 text-orange-600">Home</h1>
+
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 p-4">
+          {products.map((product) => (
+            <ProductCard
+              key={product.id}
+              productCard={product}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
