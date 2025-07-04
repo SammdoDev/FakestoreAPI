@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard.tsx";
-import type { Product, APIProduct } from "../types/Product";
+import type { Product, APIProduct } from "../types/Product.ts";
 
 const Miscellaneous = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch("https://api.escuelajs.co/api/v1/products/?categorySlug=miscellaneous")
+    fetch(
+      "https://api.escuelajs.co/api/v1/products/?categorySlug=miscellaneous"
+    )
       .then((res) => res.json())
       .then((data: APIProduct[]) => {
         const filtered = data;
@@ -42,7 +44,7 @@ const Miscellaneous = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4 text-orange-600">Miscellaneous</h1>
+      <h1 className="text-4xl font-bold mb-4 text-orange-600">Miscellaneous</h1>
 
       {loading ? (
         <p>Loading...</p>

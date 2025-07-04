@@ -42,7 +42,7 @@ const Shoes = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4 text-orange-600">Shoes</h1>
+      <h1 className="text-4xl font-bold mb-4 text-orange-600">Shoes</h1>
 
       {loading ? (
         <p>Loading...</p>

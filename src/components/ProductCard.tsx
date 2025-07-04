@@ -18,7 +18,7 @@ const { addToCart } = useCart();
       <img
         src={productCard.image}
         alt={productCard.title}
-        className="h-40 object-contain mb-2 mx-auto"
+        className="h-40 object-contain mb-2 mx-auto rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out"
       />
 
       <div className="flex flex-row space-x-4">

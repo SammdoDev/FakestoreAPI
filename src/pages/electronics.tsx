@@ -10,9 +10,6 @@ const Electronics = () => {
     fetch("https://api.escuelajs.co/api/v1/products/?categorySlug=electronics")
       .then((res) => res.json())
       .then((data: APIProduct[]) => {
-        // Jika hanya ingin tampilkan produk ID 2 saja, aktifkan filter ini:
-        // const filtered = data.filter((item) => item.id === 2);
-        // Tapi kalau ingin semua produk Electronics:
         const filtered = data;
 
         const adapted: Product[] = filtered.map((item) => ({
@@ -45,7 +42,7 @@ const Electronics = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4 text-orange-600">Electronics</h1>
+      <h1 className="text-4xl font-bold mb-4 text-orange-600">Electronics</h1>
 
       {loading ? (
         <p>Loading...</p>
