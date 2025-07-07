@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Pencil, Trash2 } from "lucide-react";
+import { Menu, Pencil, Trash2 } from "lucide-react";
 import Sidebar from "../components/sidebar";
 import { useNavigate } from "react-router-dom";
 
@@ -29,7 +29,7 @@ const ListProduct = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch("https://api.escuelajs.co/api/v1/products?offset=0&limit=10");
+      const res = await fetch("https://api.escuelajs.co/api/v1/products");
       const data = await res.json();
       setProducts(data);
     } catch (error) {
@@ -65,14 +65,17 @@ const ListProduct = () => {
     }
 
     try {
-      const res = await fetch(`https://api.escuelajs.co/api/v1/products/${currentProduct.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(currentProduct),
-      });
+      const res = await fetch(
+        `https://api.escuelajs.co/api/v1/products/${currentProduct.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(currentProduct),
+        }
+      );
 
       if (!res.ok) throw new Error("Gagal mengedit produk");
 
@@ -90,7 +93,10 @@ const ListProduct = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+
+    const role = sessionStorage.getItem("role");
+    if (role !== "admin") navigate("/");
+  }, [navigate]);
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -100,125 +106,149 @@ const ListProduct = () => {
         handleNavigate={handleNavigate}
         handleLogout={handleLogout}
       />
+      <div className="flex-1 w-full lg:ml-0">
+        <div className="lg:hidden flex items-center justify-between p-4 bg-white shadow-sm">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="p-2 hover:bg-gray-100 rounded-lg"
+          >
+            <Menu className="w-6 h-6 text-gray-800" />
+          </button>
+          <h2 className="text-lg font-semibold text-gray-800">List Produk</h2>
+          <div className="w-10" />
+        </div>
 
-      <main className="flex-1 p-4 max-h-screen sm:p-6 lg:p-10 overflow-auto">
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Daftar Produk</h2>
+        <main className="flex-1 p-4 max-h-screen sm:p-6 lg:p-10 overflow-auto">
+          <div className="bg-white p-6 rounded-xl shadow-md">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">
+              Daftar Produk
+            </h2>
 
-          <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border border-gray-200 rounded-xl overflow-hidden">
-              <thead>
-                <tr className="bg-gray-50 text-left text-sm font-semibold text-gray-700">
-                  <th className="p-4">Gambar</th>
-                  <th className="p-4">Nama Produk</th>
-                  <th className="p-4">Harga</th>
-                  <th className="p-4 text-center">Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {products.map((product) => (
-                  <tr key={product.id} className="border-t border-gray-200 hover:bg-gray-50">
-                    <td className="p-4">
-                      <img
-                        src={product.images[0]}
-                        alt={product.title}
-                        className="w-16 h-16 object-cover rounded"
-                      />
-                    </td>
-                    <td className="p-4">{product.title}</td>
-                    <td className="p-4">$ {product.price.toLocaleString()}</td>
-                    <td className="p-4 flex space-x-2 justify-center">
-                      <button
-                        onClick={() => {
-                          setCurrentProduct(product);
-                          setIsEditModalOpen(true);
-                        }}
-                        className="bg-blue-600 text-white px-4 py-2 rounded"
-                      >
-                        <Pencil className="w-4 h-4" />
-                      </button>
-
-                      <button
-                        onClick={() => handleDelete(product.id)}
-                        className="bg-red-500 hover:bg-red-600 text-white p-2 rounded"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="min-w-full bg-white border border-gray-200 rounded-xl overflow-hidden">
+                <thead>
+                  <tr className="bg-gray-50 text-left text-sm font-semibold text-gray-700">
+                    <th className="p-4">Gambar</th>
+                    <th className="p-4">Nama Produk</th>
+                    <th className="p-4">Harga</th>
+                    <th className="p-4 text-center">Aksi</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-            {products.length === 0 && (
-              <p className="text-center py-8 text-gray-500">Belum ada produk.</p>
-            )}
+                </thead>
+                <tbody>
+                  {products.map((product) => (
+                    <tr
+                      key={product.id}
+                      className="border-t border-gray-200 hover:bg-gray-50"
+                    >
+                      <td className="p-4">
+                        <img
+                          src={product.images[0]}
+                          alt={product.title}
+                          className="w-16 h-16 object-cover rounded"
+                        />
+                      </td>
+                      <td className="p-4">{product.title}</td>
+                      <td className="p-4">
+                        $ {product.price.toLocaleString()}
+                      </td>
+                      <td className="p-4 flex space-x-2 justify-center">
+                        <button
+                          onClick={() => {
+                            setCurrentProduct(product);
+                            setIsEditModalOpen(true);
+                          }}
+                          className="bg-blue-600 text-white px-4 py-2 rounded"
+                        >
+                          <Pencil className="w-4 h-4" />
+                        </button>
+
+                        <button
+                          onClick={() => handleDelete(product.id)}
+                          className="bg-red-500 hover:bg-red-600 text-white p-2 rounded"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {products.length === 0 && (
+                <p className="text-center py-8 text-gray-500">
+                  Belum ada produk.
+                </p>
+              )}
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
 
-      {/* Modal Edit Produk */}
-      {isEditModalOpen && currentProduct && (
-        <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg relative">
-            <h2 className="text-xl font-semibold mb-4">Edit Produk</h2>
+        {/* Modal Edit Produk */}
+        {isEditModalOpen && currentProduct && (
+          <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg relative">
+              <h2 className="text-xl font-semibold mb-4">Edit Produk</h2>
 
-            <form onSubmit={handleUpdateProduct} className="space-y-4">
-              <input
-                type="text"
-                value={currentProduct.title}
-                onChange={(e) =>
-                  setCurrentProduct({ ...currentProduct, title: e.target.value })
-                }
-                className="w-full p-3 border rounded"
-                placeholder="Nama Produk"
-                required
-              />
-              <input
-                type="number"
-                value={currentProduct.price}
-                onChange={(e) =>
-                  setCurrentProduct({
-                    ...currentProduct,
-                    price: Number(e.target.value),
-                  })
-                }
-                className="w-full p-3 border rounded"
-                placeholder="Harga Produk"
-                required
-              />
-              <input
-                type="url"
-                value={currentProduct.images[0]}
-                onChange={(e) =>
-                  setCurrentProduct({
-                    ...currentProduct,
-                    images: [e.target.value],
-                  })
-                }
-                className="w-full p-3 border rounded"
-                placeholder="URL Gambar"
-                required
-              />
+              <form onSubmit={handleUpdateProduct} className="space-y-4">
+                <input
+                  type="text"
+                  value={currentProduct.title}
+                  onChange={(e) =>
+                    setCurrentProduct({
+                      ...currentProduct,
+                      title: e.target.value,
+                    })
+                  }
+                  className="w-full p-3 border rounded"
+                  placeholder="Nama Produk"
+                  required
+                />
+                <input
+                  type="number"
+                  value={currentProduct.price}
+                  onChange={(e) =>
+                    setCurrentProduct({
+                      ...currentProduct,
+                      price: Number(e.target.value),
+                    })
+                  }
+                  className="w-full p-3 border rounded"
+                  placeholder="Harga Produk"
+                  required
+                />
+                <input
+                  type="url"
+                  value={currentProduct.images[0]}
+                  onChange={(e) =>
+                    setCurrentProduct({
+                      ...currentProduct,
+                      images: [e.target.value],
+                    })
+                  }
+                  className="w-full p-3 border rounded"
+                  placeholder="URL Gambar"
+                  required
+                />
 
-              <div className="flex justify-end space-x-2 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setIsEditModalOpen(false)}
-                  className="px-4 py-2 bg-gray-300 rounded"
-                >
-                  Batal
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500"
-                >
-                  Simpan Perubahan
-                </button>
-              </div>
-            </form>
+                <div className="flex justify-end space-x-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsEditModalOpen(false)}
+                    className="px-4 py-2 bg-gray-300 rounded"
+                  >
+                    Batal
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500"
+                  >
+                    Simpan Perubahan
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

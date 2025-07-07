@@ -15,14 +15,22 @@ import AddProduct from "./admin/addProduct";
 import SignUp from "./signUp";
 import Dashboard from "./admin/dashboard";
 import ListProduct from "./admin/listProduct";
-
+import ListUsers from "./admin/listUsers";
+import Checkout from "./pages/checkOut";
+import { useNavigate } from "react-router-dom";
+import Invoice from "./pages/invoice";
+import History from "./pages/history";
 
 const CartIndicator = () => {
   const { cart } = useCart();
+  const navigate = useNavigate(); // tambahkan ini
 
   return (
     <div className="fixed bottom-0 right-0 mr-4 mb-7 z-50">
-      <button className="relative h-12 w-12 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 shadow-black shadow-md hover:shadow-none transition-shadow">
+      <button
+        onClick={() => navigate("/checkout")} // pindah ke halaman checkout
+        className="relative h-12 w-12 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 shadow-black shadow-md hover:shadow-none transition-shadow"
+      >
         <ShoppingCart className="text-white w-6 h-6" />
         {cart.length > 0 && (
           <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full ring-2 ring-white shadow">
@@ -38,7 +46,14 @@ const AppLayout = () => {
   const location = useLocation();
   const path = location.pathname;
 
-  const noNavbarPages = ["/", "/signUp", "/AddProduct", "/dashboard", "/listProduct"];
+  const noNavbarPages = [
+    "/",
+    "/signUp",
+    "/AddProduct",
+    "/dashboard",
+    "/listProduct",
+    "/listUsers",
+  ];
   const role = sessionStorage.getItem("role");
   const isAdminPage = path === "/dashboard" && role === "admin";
   const hideNavbar = noNavbarPages.includes(path) || isAdminPage;
@@ -53,7 +68,10 @@ const AppLayout = () => {
       )}
 
       <Routes>
+        <Route path="/history" element={<History />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/listUsers" element={<ListUsers />} />
         <Route path="/listProduct" element={<ListProduct />} />
         <Route path="/AddProduct" element={<AddProduct />} />
         <Route path="/" element={<Index />} />
@@ -64,11 +82,11 @@ const AppLayout = () => {
         <Route path="/shoes" element={<Shoes />} />
         <Route path="/miscellaneous" element={<Miscellaneous />} />
         <Route path="/signUp" element={<SignUp />} />
+        <Route path="/invoice" element={<Invoice />} />
       </Routes>
     </>
   );
 };
-
 
 const App: React.FC = () => {
   return (

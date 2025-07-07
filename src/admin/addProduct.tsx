@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Menu } from "lucide-react";
 import Sidebar from "../components/sidebar";
 import { useNavigate } from "react-router-dom";
+import type { Category } from "../types/Product";
 
 const AddProduct = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -15,8 +16,28 @@ const AddProduct = () => {
 
   const handleNavigate = (path: string) => {
     navigate(path);
-    setSidebarOpen(false); // auto-close on mobile
+    setSidebarOpen(false);
   };
+
+  const [categories, setCategories] = useState<{ id: number; name: string }[]>(
+    []
+  );
+
+  useEffect(() => {
+    fetch("https://api.escuelajs.co/api/v1/categories")
+      .then((res) => res.json())
+      .then((data) => {
+        const filtered = data.map((cat: Category) => ({
+          id: cat.id,
+          name: cat.name,
+        }));
+        setCategories(filtered);
+      })
+      .catch((err) => console.error("Gagal memuat kategori:", err));
+
+    const role = sessionStorage.getItem("role");
+    if (role !== "admin") navigate("/");
+  }, [navigate]);
 
   const handleLogout = () => {
     sessionStorage.clear();
@@ -72,8 +93,8 @@ const AddProduct = () => {
         handleLogout={handleLogout}
       />
 
-      <main className="flex-1 w-full max-h-screen p-4 sm:p-6 lg:p-10 overflow-x-auto">
-        <div className="lg:hidden flex items-center justify-between mb-6">
+      <main className="flex-1 w-full max-h-screen sm:p-6 lg:p-10 overflow-x-auto">
+        <div className="lg:hidden flex items-center justify-between mb-6 fixed bg-white py-4 shadow-lg w-full top-0">
           <button
             onClick={() => setSidebarOpen(true)}
             className="p-2 hover:bg-gray-200 rounded-lg"
@@ -142,17 +163,21 @@ const AddProduct = () => {
 
             <div className="flex flex-col space-y-2">
               <label className="text-sm font-medium text-gray-700">
-                ID Kategori
+                Kategori
               </label>
-              <input
-                min={1}
-                type="number"
+              <select
                 value={categoryId}
                 onChange={(e) => setCategoryId(Number(e.target.value))}
-                className="p-3 border rounded-lg focus:outline-none placeholder-gray-700 focus:ring-2 focus:ring-orange-400"
-                placeholder="Contoh: 1"
+                className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
                 required
-              />
+              >
+                <option value="">Pilih kategori</option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="flex flex-col space-y-2">

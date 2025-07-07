@@ -7,39 +7,42 @@ const Miscellaneous = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch(
-      "https://api.escuelajs.co/api/v1/products/?categorySlug=miscellaneous"
-    )
-      .then((res) => res.json())
-      .then((data: APIProduct[]) => {
-        const filtered = data;
+    const fetchData = () => {
+      fetch("https://api.escuelajs.co/api/v1/products/?categorySlug=miscellaneous")
+        .then((res) => res.json())
+        .then((data: APIProduct[]) => {
+          const adapted: Product[] = data.map((item) => ({
+            id: item.id,
+            title: item.title,
+            slug: item.title.toLowerCase().replace(/\s+/g, "-"),
+            price: item.price,
+            description: item.description,
+            image: item.images[0],
+            category: {
+              id: item.category.id,
+              name: item.category.name,
+              slug:
+                item.category.slug ??
+                item.category.name.toLowerCase().replace(/\s+/g, "-"),
+              image: item.category.image,
+              creationAt: item.category.creationAt,
+              updatedAt: item.category.updatedAt,
+            },
+          }));
 
-        const adapted: Product[] = filtered.map((item) => ({
-          id: item.id,
-          title: item.title,
-          slug: item.title.toLowerCase().replace(/\s+/g, "-"),
-          price: item.price,
-          description: item.description,
-          image: item.images[0],
-          category: {
-            id: item.category.id,
-            name: item.category.name,
-            slug:
-              item.category.slug ??
-              item.category.name.toLowerCase().replace(/\s+/g, "-"),
-            image: item.category.image,
-            creationAt: item.category.creationAt,
-            updatedAt: item.category.updatedAt,
-          },
-        }));
+          setProducts(adapted);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error("Gagal mengambil produk:", err);
+          setLoading(false);
+        });
+    };
 
-        setProducts(adapted);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Gagal mengambil produk kategori Miscellaneous:", err);
-        setLoading(false);
-      });
+    fetchData();
+
+    const interval = setInterval(fetchData, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   return (

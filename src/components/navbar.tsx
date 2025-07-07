@@ -96,7 +96,7 @@ const Navbar = () => {
           </li>
 
           <li>
-            <a href="#history" className="hover:text-orange-500 transition">
+            <a href="/history" className="hover:text-orange-500 transition">
               History
             </a>
           </li>

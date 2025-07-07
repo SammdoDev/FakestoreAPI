@@ -1,40 +1,36 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-type User = {
-  name: string;
-  email: string;
-  password: string;
-  role: "admin" | "user";
-};
 
 function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-
   const navigate = useNavigate();
 
-  const handleRegister = () => {
-    const users: User[] = JSON.parse(localStorage.getItem("users") || "[]");
+  const handleRegister = async () => {
+    try {
+      const res = await fetch("https://api.escuelajs.co/api/v1/users/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          avatar: "https://i.pravatar.cc/150?u=" + email
+        })
+      });
 
-    if (users.find((u: User) => u.email === email)) {
-      setMessage("Email sudah terdaftar.");
-      return;
+      if (!res.ok) throw new Error("Gagal mendaftar.");
+
+      setMessage("✅ Pendaftaran berhasil! Silakan login.");
+      setTimeout(() => navigate("/"), 1500);
+    } catch (error) {
+      setMessage("❌ Gagal mendaftar.");
+      console.error(error);
     }
-
-    const newUser: User = {
-      name,
-      email,
-      password,
-      role: email === "admin@mail.com" ? "admin" : "user"
-    };
-
-    users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
-    setMessage("Pendaftaran berhasil! Silakan login.");
-    setTimeout(() => navigate("/"), 1500);
   };
 
   return (

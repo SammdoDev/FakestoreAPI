@@ -13,7 +13,7 @@ export type Product = {
   slug: string;
   price: number;
   description: string;
-  image: string; // Optional, if you want to use a single image
+  image: string;
   category: Category;
 };
 

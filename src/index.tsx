@@ -2,36 +2,39 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 type User = {
-  name: string;
+  id: number;
   email: string;
   password: string;
-  role: "admin" | "user";
+  name: string;
+  avatar: string;
+  role?: string;
 };
 
-function Login() {
+function Index() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    const users: User[] = JSON.parse(localStorage.getItem("users") || "[]");
+  const handleLogin = async () => {
+    try {
+      const res = await fetch("https://api.escuelajs.co/api/v1/users");
+      const users: User[] = await res.json();
 
-    const user = users.find((u: User) => u.email === email && u.password === password);
+      const user = users.find((u) => u.email === email);
 
-    if (!user) {
-      setError("Email atau password salah.");
-      return;
-    }
+      if (!user) {
+        setError("Email tidak ditemukan.");
+        return;
+      }
 
-    sessionStorage.setItem("token", "local-token");
-    sessionStorage.setItem("role", user.role);
+      sessionStorage.setItem("token", "fake-token");
+      sessionStorage.setItem("role", email === "admin@mail.com" ? "admin" : "user");
 
-    if (user.role === "admin") {
-      navigate("/dashboard");
-    } else {
-      navigate("/home");
+      navigate(email === "admin@mail.com" ? "/dashboard" : "/home");
+    } catch (err) {
+      setError("Terjadi kesalahan saat login.");
+      console.error(err);
     }
   };
 
@@ -66,7 +69,7 @@ function Login() {
           Login
         </button>
 
-        <p>
+        <p className="text-sm text-center">
           Belum punya akun?{" "}
           <a href="/signUp" className="underline text-blue-600">Daftar</a>
         </p>
@@ -75,4 +78,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Index;

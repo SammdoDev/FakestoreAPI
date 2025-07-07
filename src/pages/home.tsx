@@ -10,35 +10,42 @@ const Home = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch("https://api.escuelajs.co/api/v1/products")
-      .then((res) => res.json())
-      .then((data: APIProduct[]) => {
-        const adapted: Product[] = data.map((item) => ({
-          id: item.id,
-          title: item.title,
-          slug: item.title.toLowerCase().replace(/\s+/g, "-"),
-          price: item.price,
-          description: item.description,
-          image: item.images[0],
-          category: {
-            id: item.category.id,
-            name: item.category.name,
-            slug:
-              item.category.slug ??
-              item.category.name.toLowerCase().replace(/\s+/g, "-"),
-            image: item.category.image,
-            creationAt: item.category.creationAt,
-            updatedAt: item.category.updatedAt,
-          },
-        }));
+    const fetchData = () => {
+      fetch("https://api.escuelajs.co/api/v1/products")
+        .then((res) => res.json())
+        .then((data: APIProduct[]) => {
+          const adapted: Product[] = data.map((item) => ({
+            id: item.id,
+            title: item.title,
+            slug: item.title.toLowerCase().replace(/\s+/g, "-"),
+            price: item.price,
+            description: item.description,
+            image: item.images[0],
+            category: {
+              id: item.category.id,
+              name: item.category.name,
+              slug:
+                item.category.slug ??
+                item.category.name.toLowerCase().replace(/\s+/g, "-"),
+              image: item.category.image,
+              creationAt: item.category.creationAt,
+              updatedAt: item.category.updatedAt,
+            },
+          }));
 
-        setProducts(adapted);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Gagal mengambil produk kategori Home:", err);
-        setLoading(false);
-      });
+          setProducts(adapted);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error("Gagal mengambil produk:", err);
+          setLoading(false);
+        });
+    };
+
+    fetchData();
+
+    const interval = setInterval(fetchData, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   const settings = {
@@ -53,13 +60,22 @@ const Home = () => {
     <div className="p-6 space-x-4">
       <Slider {...settings} className="mb-8">
         <div>
-          <img src="src/assets/promo1.jpg" className="w-full h-full md:h-[400px] object-contain" />
+          <img
+            src="src/assets/promo1.jpg"
+            className="w-full h-full md:h-[400px] object-contain"
+          />
         </div>
         <div className="mx-4">
-          <img src="src/assets/promo2.jpg" className="w-full h-full md:h-[400px] object-contain" />
+          <img
+            src="src/assets/promo2.jpg"
+            className="w-full h-full md:h-[400px] object-contain"
+          />
         </div>
         <div>
-          <img src="src/assets/promo3.jpg" className="w-full h-full md:h-[400px] object-contain" />
+          <img
+            src="src/assets/promo3.jpg"
+            className="w-full h-full md:h-[400px] object-contain"
+          />
         </div>
       </Slider>
 
