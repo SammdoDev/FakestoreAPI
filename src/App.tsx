@@ -11,7 +11,11 @@ import Home from "./pages/home";
 import { CartProvider } from "./context/CartProvider";
 import { useCart } from "./hooks/useCart";
 import { ShoppingCart } from "lucide-react";
-import AddProduct from "./pages/addProduct";
+import AddProduct from "./admin/addProduct";
+import SignUp from "./signUp";
+import Dashboard from "./admin/dashboard";
+import ListProduct from "./admin/listProduct";
+
 
 const CartIndicator = () => {
   const { cart } = useCart();
@@ -30,20 +34,27 @@ const CartIndicator = () => {
   );
 };
 
-// Komponen wrapper agar bisa gunakan useLocation()
 const AppLayout = () => {
   const location = useLocation();
-  const isIndex = location.pathname === "/";
+  const path = location.pathname;
+
+  const noNavbarPages = ["/", "/signUp", "/AddProduct", "/dashboard", "/listProduct"];
+  const role = sessionStorage.getItem("role");
+  const isAdminPage = path === "/dashboard" && role === "admin";
+  const hideNavbar = noNavbarPages.includes(path) || isAdminPage;
 
   return (
     <>
-      {!isIndex && <Navbar />}
-      {!isIndex && (
+      {!hideNavbar && <Navbar />}
+      {!hideNavbar && (
         <div className="text-right text-sm text-gray-500 p-2 pr-4">
           <CartIndicator />
         </div>
       )}
+
       <Routes>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/listProduct" element={<ListProduct />} />
         <Route path="/AddProduct" element={<AddProduct />} />
         <Route path="/" element={<Index />} />
         <Route path="/home" element={<Home />} />
@@ -52,10 +63,12 @@ const AppLayout = () => {
         <Route path="/furniture" element={<Furniture />} />
         <Route path="/shoes" element={<Shoes />} />
         <Route path="/miscellaneous" element={<Miscellaneous />} />
+        <Route path="/signUp" element={<SignUp />} />
       </Routes>
     </>
   );
 };
+
 
 const App: React.FC = () => {
   return (

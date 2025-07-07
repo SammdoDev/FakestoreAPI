@@ -21,9 +21,6 @@ const Navbar = () => {
 
         <div className="hidden md:flex items-center space-x-4">
           <Search />
-          <button className="px-4 py-2 bg-black text-white hover:bg-white hover:text-black border border-black transition rounded-sm">
-            Login
-          </button>
           <img
             src="src/assets/profile.jpg"
             className="rounded-full h-[40px]"

@@ -1,51 +1,48 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Index() {
+type User = {
+  name: string;
+  email: string;
+  password: string;
+  role: "admin" | "user";
+};
+
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [token, setToken] = useState("");
 
   const navigate = useNavigate();
-  const handleLogin = async () => {
-    setLoading(true);
-    setError("");
 
-    try {
-      const res = await fetch("https://api.escuelajs.co/api/v1/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+  const handleLogin = () => {
+    const users: User[] = JSON.parse(localStorage.getItem("users") || "[]");
 
-      if (!res.ok) throw new Error("Login gagal");
+    const user = users.find((u: User) => u.email === email && u.password === password);
 
-      const data = await res.json();
-      setToken(data.access_token);
-      sessionStorage.setItem("token", data.access_token);
+    if (!user) {
+      setError("Email atau password salah.");
+      return;
+    }
 
-      navigate("/Home");
-    } catch (err) {
-      setError("Login gagal. Email atau password salah.");
-      console.error(err);
-    } finally {
-      setLoading(false);
+    sessionStorage.setItem("token", "local-token");
+    sessionStorage.setItem("role", user.role);
+
+    if (user.role === "admin") {
+      navigate("/dashboard");
+    } else {
+      navigate("/home");
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-[400px] bg-white p-6 rounded-xl shadow-md space-y-4 shadow-orange-600">
+      <div className="w-full max-w-[400px] bg-white p-6 rounded-xl shadow-md space-y-4">
         <h1 className="text-2xl font-bold text-center text-orange-600">
-          FakeStore
+          Login Aplikasi
         </h1>
 
         {error && <p className="text-red-500 text-sm">{error}</p>}
-        {token && <p className="text-green-600 text-sm">Login berhasil!</p>}
 
         <input
           type="email"
@@ -64,14 +61,18 @@ function Index() {
 
         <button
           onClick={handleLogin}
-          disabled={loading}
           className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
         >
-          {loading ? "Loading..." : "Sign In"}
+          Login
         </button>
+
+        <p>
+          Belum punya akun?{" "}
+          <a href="/signUp" className="underline text-blue-600">Daftar</a>
+        </p>
       </div>
     </div>
   );
 }
 
-export default Index;
+export default Login;
