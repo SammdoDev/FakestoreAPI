@@ -6,7 +6,6 @@ import Index from "./index";
 import Shoes from "./pages/shoes";
 import Clothes from "./pages/clothes";
 import Furniture from "./pages/furniture";
-import Miscellaneous from "./pages/miscellaneous";
 import Home from "./pages/home";
 import { CartProvider } from "./context/CartProvider";
 import { useCart } from "./hooks/useCart";
@@ -25,6 +24,7 @@ import Footer from "./components/footer";
 import ListHistory from "./admin/listHistory";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Miscellaneous from "./pages/miscellaneous";
 
 const CartIndicator = () => {
   const { cart } = useCart();
