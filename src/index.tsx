@@ -1,40 +1,59 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-type User = {
+interface LoginResponse {
+  access_token: string;
+}
+
+interface UserProfile {
   id: number;
   email: string;
-  password: string;
   name: string;
   avatar: string;
-  role?: string;
-};
+  role: string;
+}
 
 function Index() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    setError("");
     try {
-      const res = await fetch("https://api.escuelajs.co/api/v1/users");
-      const users: User[] = await res.json();
+      const res = await fetch("https://api.escuelajs.co/api/v1/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!res.ok) throw new Error("Email atau password salah");
+      const data: LoginResponse = await res.json();
+      sessionStorage.setItem("token", data.access_token);
 
-      const user = users.find((u) => u.email === email);
+      const profileRes = await fetch(
+        "https://api.escuelajs.co/api/v1/auth/profile",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${data.access_token}`,
+          },
+        }
+      );
+      if (!profileRes.ok) throw new Error("Gagal memuat profil");
+      const profile: UserProfile = await profileRes.json();
 
-      if (!user) {
-        setError("Email tidak ditemukan.");
-        return;
+      sessionStorage.setItem("avatar", profile.avatar);
+      sessionStorage.setItem("role", profile.role);
+
+      if (profile.role === "admin") {
+        navigate("/dashboard");
+      } else {
+        navigate("/home");
       }
-
-      sessionStorage.setItem("token", "fake-token");
-      sessionStorage.setItem("role", email === "admin@mail.com" ? "admin" : "user");
-
-      navigate(email === "admin@mail.com" ? "/dashboard" : "/home");
-    } catch (err) {
-      setError("Terjadi kesalahan saat login.");
-      console.error(err);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Terjadi kesalahan";
+      setError(msg);
     }
   };
 
@@ -64,14 +83,16 @@ function Index() {
 
         <button
           onClick={handleLogin}
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
         >
           Login
         </button>
 
         <p className="text-sm text-center">
           Belum punya akun?{" "}
-          <a href="/signUp" className="underline text-blue-600">Daftar</a>
+          <a href="/signUp" className="underline text-blue-600">
+            Daftar
+          </a>
         </p>
       </div>
     </div>

@@ -20,15 +20,20 @@ import Checkout from "./pages/checkOut";
 import { useNavigate } from "react-router-dom";
 import Invoice from "./pages/invoice";
 import History from "./pages/history";
+import SearchPage from "./pages/searchPages";
+import Footer from "./components/footer";
+import ListHistory from "./admin/listHistory";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CartIndicator = () => {
   const { cart } = useCart();
-  const navigate = useNavigate(); // tambahkan ini
+  const navigate = useNavigate();
 
   return (
     <div className="fixed bottom-0 right-0 mr-4 mb-7 z-50">
       <button
-        onClick={() => navigate("/checkout")} // pindah ke halaman checkout
+        onClick={() => navigate("/checkout")}
         className="relative h-12 w-12 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 shadow-black shadow-md hover:shadow-none transition-shadow"
       >
         <ShoppingCart className="text-white w-6 h-6" />
@@ -53,13 +58,24 @@ const AppLayout = () => {
     "/dashboard",
     "/listProduct",
     "/listUsers",
+    "/listHistory",
   ];
   const role = sessionStorage.getItem("role");
   const isAdminPage = path === "/dashboard" && role === "admin";
   const hideNavbar = noNavbarPages.includes(path) || isAdminPage;
 
+  const adminPaths = [
+    "/dashboard",
+    "/AddProduct",
+    "/listProduct",
+    "/listUsers",
+    "/listHistory",
+  ];
+  const isAdminArea = adminPaths.includes(path);
+
   return (
     <>
+      <ToastContainer position="top-right" autoClose={2000} />
       {!hideNavbar && <Navbar />}
       {!hideNavbar && (
         <div className="text-right text-sm text-gray-500 p-2 pr-4">
@@ -69,10 +85,12 @@ const AppLayout = () => {
 
       <Routes>
         <Route path="/history" element={<History />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/listUsers" element={<ListUsers />} />
         <Route path="/listProduct" element={<ListProduct />} />
+        <Route path="/listHistory" element={<ListHistory />} />
         <Route path="/AddProduct" element={<AddProduct />} />
         <Route path="/" element={<Index />} />
         <Route path="/home" element={<Home />} />
@@ -84,6 +102,8 @@ const AppLayout = () => {
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/invoice" element={<Invoice />} />
       </Routes>
+
+      {!isAdminArea && <Footer />}
     </>
   );
 };

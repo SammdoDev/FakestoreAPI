@@ -1,9 +1,24 @@
 import React, { useContext } from "react";
 import { CartContext } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
+interface PurchaseItem {
+  id: number;
+  title: string;
+  price: number;
+  image?: string;
+}
+
+interface PurchaseEntry {
+  id: number;
+  date: string;
+  items: PurchaseItem[];
+  total: number;
+}
 
 const Checkout: React.FC = () => {
-  const { cart } = useContext(CartContext);
+  const { cart, clearCart } = useContext(CartContext);
   const navigate = useNavigate();
 
   const total = cart.reduce((sum, item) => sum + item.price, 0);
@@ -11,23 +26,32 @@ const Checkout: React.FC = () => {
   const handleCheckout = () => {
     if (cart.length === 0) return;
 
-    // Simpan ke session untuk invoice
+    const existingHistory: PurchaseEntry[] = JSON.parse(
+      localStorage.getItem("purchaseHistory") || "[]"
+    );
+
+    toast.success("Berhasil Checkout produk.");
+    const newEntry: PurchaseEntry = {
+      id: Date.now(),
+      date: new Date().toISOString(),
+      items: cart.map((item) => ({
+        id: item.id,
+        title: item.title,
+        price: item.price,
+        image: item.image,
+      })),
+      total,
+    };
+
+    localStorage.setItem(
+      "purchaseHistory",
+      JSON.stringify([newEntry, ...existingHistory])
+    );
+
     sessionStorage.setItem("invoiceCart", JSON.stringify(cart));
     sessionStorage.setItem("invoiceTotal", total.toString());
 
-    // Ambil history lama
-    const existingHistory = JSON.parse(localStorage.getItem("purchaseHistory") || "[]");
-
-    // Tambah invoice baru ke history
-    const newEntry = {
-      id: Date.now(),
-      items: cart,
-      total,
-      date: new Date().toISOString()
-    };
-
-    const updatedHistory = [...existingHistory, newEntry];
-    localStorage.setItem("purchaseHistory", JSON.stringify(updatedHistory));
+    clearCart();
 
     navigate("/invoice");
   };
@@ -42,7 +66,10 @@ const Checkout: React.FC = () => {
         ) : (
           <div className="space-y-4">
             {cart.map((item, index) => (
-              <div key={index} className="flex items-center justify-between border-b pb-4">
+              <div
+                key={index}
+                className="flex items-center justify-between border-b pb-4"
+              >
                 <div className="flex items-center space-x-4">
                   <img
                     src={item.image}
@@ -59,7 +86,9 @@ const Checkout: React.FC = () => {
 
             <div className="flex justify-between items-center mt-6">
               <h2 className="text-xl font-bold">Total</h2>
-              <p className="text-xl font-semibold text-orange-600">${total.toFixed(2)}</p>
+              <p className="text-xl font-semibold text-orange-600">
+                ${total.toFixed(2)}
+              </p>
             </div>
 
             <button

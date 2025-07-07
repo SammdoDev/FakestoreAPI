@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { CartContext } from "./CartContext";
+import React, { useState, useEffect } from "react";
 import type { Product } from "../types/Product";
+import { CartContext } from "../context/CartContext";
+import type { CartContextType } from "../context/CartContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -9,46 +12,46 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const [productAdded, setProductAdded] = useState<Product | null>(null);
   const [showModal, setShowModal] = useState(false);
 
-  // Ambil cart dari localStorage saat pertama kali render
   useEffect(() => {
-    const savedCart = localStorage.getItem("cart");
-    if (savedCart) {
-      setCart(JSON.parse(savedCart));
-    }
+    const saved = localStorage.getItem("cart");
+    if (saved) setCart(JSON.parse(saved));
   }, []);
-
-  // Simpan cart ke localStorage setiap kali cart berubah
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  const addToCart = (product: Product) => {
-    const updatedCart = [...cart, product];
-    setCart(updatedCart);
+  const addToCart: CartContextType["addToCart"] = (product) => {
+    setCart((prev) => [...prev, product]);
     setProductAdded(product);
     setShowModal(true);
+    toast.success(`${product.title} berhasil ditambahkan ke keranjang!`);
     console.log("🛒 Produk ditambahkan ke keranjang:", product);
   };
 
-  const removeFromCart = (id: number) => {
-    const updatedCart = cart.filter((item) => item.id !== id);
-    setCart(updatedCart);
+  const removeFromCart: CartContextType["removeFromCart"] = (id) => {
+    setCart((prev) => prev.filter((item) => item.id !== id));
     console.log("🗑️ Produk dihapus dari keranjang dengan id:", id);
+    toast.error("Gagal menambahkan produk.");
+  };
+
+  const clearCart: CartContextType["clearCart"] = () => {
+    setCart([]);
+    console.log("🧹 Keranjang dikosongkan");
   };
 
   const closeModal = (cancel?: boolean) => {
     if (cancel && productAdded) {
-      const updatedCart = cart.filter((item) => item.id !== productAdded.id);
-      setCart(updatedCart);
-      console.log("❌ Dibatalkan:", productAdded.title);
+      removeFromCart(productAdded.id);
+      console.log(" Dibatalkan:", productAdded.title);
     }
-
     setShowModal(false);
     setProductAdded(null);
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, removeFromCart, clearCart }}
+    >
       {children}
 
       {showModal && productAdded && (
@@ -86,7 +89,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
                 onClick={() => closeModal(false)}
                 className="w-1/2 bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-500"
               >
-                Check Out
+                Add To Cart
               </button>
             </div>
           </div>

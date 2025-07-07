@@ -7,6 +7,7 @@ type Product = {
   id: number;
   title: string;
   price: number;
+  description: string;
   images: string[];
 };
 
@@ -80,7 +81,6 @@ const ListProduct = () => {
       if (!res.ok) throw new Error("Gagal mengedit produk");
 
       const updated = await res.json();
-      alert("✅ Produk berhasil diubah!");
       setProducts((prev) =>
         prev.map((p) => (p.id === updated.id ? updated : p))
       );
@@ -151,7 +151,7 @@ const ListProduct = () => {
                       <td className="p-4">
                         $ {product.price.toLocaleString()}
                       </td>
-                      <td className="p-4 flex space-x-2 justify-center">
+                      <td className="p-8 flex space-x-2 items-center justify-center">
                         <button
                           onClick={() => {
                             setCurrentProduct(product);
@@ -182,10 +182,9 @@ const ListProduct = () => {
           </div>
         </main>
 
-        {/* Modal Edit Produk */}
         {isEditModalOpen && currentProduct && (
           <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg relative">
+            <div className="bg-white p-6 rounded-lg shadow-sm shadow-black w-full max-w-lg relative">
               <h2 className="text-xl font-semibold mb-4">Edit Produk</h2>
 
               <form onSubmit={handleUpdateProduct} className="space-y-4">
@@ -213,6 +212,19 @@ const ListProduct = () => {
                   }
                   className="w-full p-3 border rounded"
                   placeholder="Harga Produk"
+                  required
+                />
+                <input
+                  type="text"
+                  value={currentProduct.description}
+                  onChange={(e) =>
+                    setCurrentProduct({
+                      ...currentProduct,
+                      price: Number(e.target.value),
+                    })
+                  }
+                  className="w-full p-3 border rounded"
+                  placeholder="Deskripsi Produk"
                   required
                 />
                 <input
