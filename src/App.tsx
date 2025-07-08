@@ -21,7 +21,7 @@ import SignUp from "./signUp";
 
 import AddProduct from "./admin/addProduct";
 import Dashboard from "./admin/dashboard";
-import ListProduct from "./admin/listHistory";
+import ListProduct from "./admin/listProduct";
 import ListUsers from "./admin/listUsers";
 import ListHistory from "./admin/listHistory";
 
