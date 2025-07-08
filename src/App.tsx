@@ -25,7 +25,7 @@ import ListUsers from "./admin/listUsers";
 import ListHistory from "./admin/listHistory";
 
 import "react-toastify/dist/ReactToastify.css";
-import Miscellaneous from "./pages/miscellaneous";
+import Miscellaneous from "./pages/Miscellaneous";
 
 const AppLayout = () => {
   const location = useLocation();
