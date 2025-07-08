@@ -1,5 +1,5 @@
 import React from "react";
-import type { Product } from "../types/product";
+import type { Product } from "../types/Product";
 import { Plus } from "lucide-react";
 import { useCart } from "../hooks/useCart";
 

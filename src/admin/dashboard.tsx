@@ -1,9 +1,9 @@
 import { BarChartBig, Users2, PackageSearch, Menu } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../components/sidebar";
+import Sidebar from "../components/Sidebar";
 import ApexCharts from "apexcharts";
-import type { Category, Product } from "../types/product";
+import type { Category, Product } from "../types/Product";
 
 function Dashboard() {
   const navigate = useNavigate();

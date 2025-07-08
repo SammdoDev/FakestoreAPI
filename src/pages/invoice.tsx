@@ -1,5 +1,5 @@
 import React from "react";
-import type { Product } from "../types/product";
+import type { Product } from "../types/Product";
 
 const Invoice: React.FC = () => {
   // Ambil data dari sessionStorage

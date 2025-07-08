@@ -1,7 +1,7 @@
 // src/pages/SearchPage.tsx
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import type { Product, Category } from "../types/product";
+import type { Product, Category } from "../types/Product";
 import ProductCard from "../components/ProductCard";
 
 type APIProduct = {

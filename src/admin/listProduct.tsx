@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, Pencil, Trash2 } from "lucide-react";
-import Sidebar from "../components/sidebar";
+import Sidebar from "../components/Sidebar";
 import { useNavigate } from "react-router-dom";
 
 type Product = {

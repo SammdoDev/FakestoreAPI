@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
-import type { Product, APIProduct } from "../types/product.ts";
+import type { Product, APIProduct } from "../types/Product";
 
 const Miscellaneous = () => {
   const [products, setProducts] = useState<Product[]>([]);

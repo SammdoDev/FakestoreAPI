@@ -1,21 +1,21 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import Navbar from "./components/navbar.tsx";
-import Footer from "./components/footer.tsx";
-import CartIndicator from "./components/cartIndicator.tsx";
+import Navbar from "./components/navbar";
+import Footer from "./components/footer";
+import CartIndicator from "./components/cartIndicator";
 import { ToastContainer } from "react-toastify";
-import { CartProvider } from "./context/CartProvider.tsx";
+import { CartProvider } from "./context/CartProvider";
 
 import Index from "./index";
-import Home from "./pages/home.tsx";
-import Shoes from "./pages/shoes.tsx";
-import Clothes from "./pages/clothes.tsx";
-import Furniture from "./pages/furniture.tsx";
-import Electronics from "./pages/electronics.tsx";
-import Checkout from "./pages/checkOut.tsx";
-import Invoice from "./pages/invoice.tsx";
-import History from "./pages/history.tsx";
-import SearchPage from "./pages/searchPages.tsx";
+import Home from "./pages/home";
+import Shoes from "./pages/shoes";
+import Clothes from "./pages/clothes";
+import Furniture from "./pages/furniture";
+import Electronics from "./pages/electronics";
+import Checkout from "./pages/checkOut";
+import Invoice from "./pages/invoice";
+import History from "./pages/history";
+import SearchPage from "./pages/searchPages";
 import SignUp from "./signUp";
 
 import AddProduct from "./admin/addProduct";
@@ -25,7 +25,7 @@ import ListUsers from "./admin/listUsers";
 import ListHistory from "./admin/listHistory";
 
 import "react-toastify/dist/ReactToastify.css";
-import Miscellaneous from "./pages/miscellaneous.tsx";
+import Miscellaneous from "./pages/miscellaneous";
 
 const AppLayout = () => {
   const location = useLocation();

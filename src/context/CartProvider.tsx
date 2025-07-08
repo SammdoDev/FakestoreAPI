@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import type { Product } from "../types/product";
+import type { Product } from "../types/Product";
 import { CartContext } from "./CartContext";
 import type { CartContextType } from "./CartContext";
 import { toast } from "react-toastify";
