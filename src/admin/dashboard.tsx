@@ -1,7 +1,7 @@
 import { BarChartBig, Users2, PackageSearch, Menu } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../components/sidebar";
+import Sidebar from "../components/Sidebar";
 import ApexCharts from "apexcharts";
 import type { Category, Product } from "../types/Product";
 
@@ -138,9 +138,13 @@ function Dashboard() {
                   <div className="p-2 bg-blue-600 rounded-lg">
                     <BarChartBig className="text-white w-5 h-5" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-700">Produk</h3>
+                  <h3 className="text-lg font-semibold text-gray-700">
+                    Produk
+                  </h3>
                 </div>
-                <p className="text-3xl font-bold text-blue-600">{totalProducts}</p>
+                <p className="text-3xl font-bold text-blue-600">
+                  {totalProducts}
+                </p>
                 <p className="text-sm text-gray-600">Total produk tersedia</p>
               </div>
 
@@ -149,9 +153,13 @@ function Dashboard() {
                   <div className="p-2 bg-green-600 rounded-lg">
                     <Users2 className="text-white w-5 h-5" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-700">Pengguna</h3>
+                  <h3 className="text-lg font-semibold text-gray-700">
+                    Pengguna
+                  </h3>
                 </div>
-                <p className="text-3xl font-bold text-green-600">{totalUsers}</p>
+                <p className="text-3xl font-bold text-green-600">
+                  {totalUsers}
+                </p>
                 <p className="text-sm text-gray-600">Pengguna aktif</p>
               </div>
 
@@ -160,7 +168,9 @@ function Dashboard() {
                   <div className="p-2 bg-purple-600 rounded-lg">
                     <PackageSearch className="text-white w-5 h-5" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-700">Kategori</h3>
+                  <h3 className="text-lg font-semibold text-gray-700">
+                    Kategori
+                  </h3>
                 </div>
                 <p className="text-3xl font-bold text-purple-600">
                   {totalCategories}

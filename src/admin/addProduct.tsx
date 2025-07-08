@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Menu } from "lucide-react";
-import Sidebar from "../components/sidebar";
+import Sidebar from "../components/Sidebar";
 import { useNavigate } from "react-router-dom";
 import type { Category } from "../types/Product";
 

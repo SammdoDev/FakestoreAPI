@@ -35,7 +35,7 @@ const SearchPage: React.FC = () => {
           slug: item.title.toLowerCase().replace(/\s+/g, "-"),
           price: item.price,
           description: item.description,
-          image: item.images[0] || "",         // ambil gambar pertama
+          image: item.images[0] || "", // ambil gambar pertama
           category: {
             id: item.category.id,
             name: item.category.name,

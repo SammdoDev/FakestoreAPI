@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard.tsx";
-import type { Product, APIProduct } from "../types/Product";
+import type { Product, APIProduct } from "../types/Product.ts";
 
 const Electronics = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -8,7 +8,9 @@ const Electronics = () => {
 
   useEffect(() => {
     const fetchData = () => {
-      fetch("https://api.escuelajs.co/api/v1/products/?categorySlug=electronics")
+      fetch(
+        "https://api.escuelajs.co/api/v1/products/?categorySlug=electronics"
+      )
         .then((res) => res.json())
         .then((data: APIProduct[]) => {
           const adapted: Product[] = data.map((item) => ({

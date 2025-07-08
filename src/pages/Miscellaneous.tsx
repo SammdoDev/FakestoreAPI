@@ -8,7 +8,9 @@ const Miscellaneous = () => {
 
   useEffect(() => {
     const fetchData = () => {
-      fetch("https://api.escuelajs.co/api/v1/products/?categorySlug=miscellaneous")
+      fetch(
+        "https://api.escuelajs.co/api/v1/products/?categorySlug=miscellaneous"
+      )
         .then((res) => res.json())
         .then((data: APIProduct[]) => {
           const adapted: Product[] = data.map((item) => ({
