@@ -12,7 +12,6 @@ import Shoes from "./pages/shoes";
 import Clothes from "./pages/clothes";
 import Furniture from "./pages/furniture";
 import Electronics from "./pages/electronics";
-import Miscellaneous from "./pages/miscellaneous";
 import Checkout from "./pages/checkOut";
 import Invoice from "./pages/invoice";
 import History from "./pages/history";
@@ -26,6 +25,7 @@ import ListUsers from "./admin/listUsers";
 import ListHistory from "./admin/listHistory";
 
 import "react-toastify/dist/ReactToastify.css";
+import Miscellaneous from "./pages/miscellaneous.tsx";
 
 const AppLayout = () => {
   const location = useLocation();
