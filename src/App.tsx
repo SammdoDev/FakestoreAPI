@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
-import CartIndicator from "./components/cartIndicator";
+import CartIndicator from "./components/CartIndicator";
 import { ToastContainer } from "react-toastify";
 import { CartProvider } from "./context/CartProvider";
 
