@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import ProductCard from "../components/ProductCard.tsx";
-import type { Product, APIProduct } from "../types/Product.ts";
+import ProductCard from "../components/ProductCard";
+import type { Product, APIProduct } from "../types/product.ts";
 
 const Electronics = () => {
   const [products, setProducts] = useState<Product[]>([]);

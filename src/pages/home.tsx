@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard.tsx";
-import type { Product, APIProduct } from "../types/Product.ts";
+import type { Product, APIProduct } from "../types/product.ts";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";

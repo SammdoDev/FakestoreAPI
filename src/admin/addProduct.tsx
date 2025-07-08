@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Menu } from "lucide-react";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/sidebar";
 import { useNavigate } from "react-router-dom";
-import type { Category } from "../types/Product";
+import type { Category } from "../types/product";
 
 const AddProduct = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
