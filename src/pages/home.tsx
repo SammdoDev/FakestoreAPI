@@ -61,19 +61,19 @@ const Home = () => {
       <Slider {...settings} className="mb-8">
         <div>
           <img
-            src="/src/assets/promo1.jpg"
+            src="/assets/promo1.jpg"
             className="w-full h-full md:h-[400px] object-contain"
           />
         </div>
         <div className="mx-4">
           <img
-            src="src/assets/promo2.jpg"
+            src="/assets/promo2.jpg"
             className="w-full h-full md:h-[400px] object-contain"
           />
         </div>
         <div>
           <img
-            src="src/assets/promo3.jpg"
+            src="/assets/promo3.jpg"
             className="w-full h-full md:h-[400px] object-contain"
           />
         </div>
