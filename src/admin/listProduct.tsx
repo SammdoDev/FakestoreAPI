@@ -114,7 +114,7 @@ const ListProduct = () => {
           >
             <Menu className="w-6 h-6 text-gray-800" />
           </button>
-          <h2 className="text-lg font-semibold text-gray-800">List Produk</h2>
+          <h2 className="text-lg font-semibold text-gray-800">Dashboard</h2>
           <div className="w-10" />
         </div>
 

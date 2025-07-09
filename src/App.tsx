@@ -4,7 +4,7 @@ import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 import CartIndicator from "./components/CartIndicator";
 import { ToastContainer } from "react-toastify";
-import { CartProvider } from "./context/CartProvider";
+import { CartProvider } from "./context/cartProvider";
 
 import Index from "./index";
 import Home from "./pages/home";

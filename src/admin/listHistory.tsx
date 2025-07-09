@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import { useNavigate } from "react-router-dom";
+import { Menu } from "lucide-react";
 
 interface PurchaseItem {
   id: number;
@@ -56,74 +57,87 @@ const ListHistory: React.FC = () => {
         handleLogout={handleLogout}
       />
 
-      <main className="flex-1 p-4 max-h-screen sm:p-6 lg:p-10 overflow-auto">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">
-          Riwayat Pembelian
-        </h1>
+      <div className="flex-1 w-full lg:ml-0">
+        <div className="lg:hidden flex items-center justify-between p-4 bg-white shadow-sm">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="p-2 hover:bg-gray-100 rounded-lg"
+          >
+            <Menu className="w-6 h-6 text-gray-800" />
+          </button>
+          <h2 className="text-lg font-semibold text-gray-800">Dashboard</h2>
+          <div className="w-10" />
+        </div>
 
-        {history.length === 0 ? (
-          <p className="text-gray-600">Belum ada riwayat pembelian.</p>
-        ) : (
-          <div className="space-y-8">
-            {history.map((purchase, idx) => (
-              <div
-                key={purchase.id}
-                className="bg-white rounded-lg shadow p-6 space-y-4"
-              >
-                <div className="flex justify-between items-center">
-                  <h2 className="text-xl font-semibold">
-                    Pembelian #{idx + 1}
-                  </h2>
-                  <span className="text-sm text-gray-500">
-                    {new Date(purchase.date).toLocaleString("id-ID", {
-                      dateStyle: "medium",
-                      timeStyle: "short",
-                    })}
-                  </span>
-                </div>
+        <main className="flex-1 p-4 max-h-screen sm:p-6 lg:p-10 overflow-auto">
+          <h1 className="text-3xl font-bold text-gray-800 mb-6">
+            Riwayat Pembelian
+          </h1>
 
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="bg-gray-50">
-                      <th className="p-2 border-b">Gambar</th>
-                      <th className="p-2 border-b">Nama Barang</th>
-                      <th className="p-2 border-b">Harga</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {purchase.items.map((item) => (
-                      <tr key={item.id} className="hover:bg-gray-50">
-                        <td className="p-2 border-b">
-                          {item.image ? (
-                            <img
-                              src={item.image}
-                              alt={item.title}
-                              className="w-12 h-12 object-cover rounded"
-                              loading="lazy"
-                            />
-                          ) : (
-                            <div className="w-12 h-12 bg-gray-200 rounded" />
-                          )}
-                        </td>
-                        <td className="p-2 border-b">{item.title}</td>
-                        <td className="p-2 border-b">
-                          $ {item.price.toLocaleString("id-ID")}
-                        </td>
+          {history.length === 0 ? (
+            <p className="text-gray-600">Belum ada riwayat pembelian.</p>
+          ) : (
+            <div className="space-y-8">
+              {history.map((purchase, idx) => (
+                <div
+                  key={purchase.id}
+                  className="bg-white rounded-lg shadow p-6 space-y-4"
+                >
+                  <div className="flex justify-between items-center">
+                    <h2 className="text-xl font-semibold">
+                      Pembelian #{idx + 1}
+                    </h2>
+                    <span className="text-sm text-gray-500">
+                      {new Date(purchase.date).toLocaleString("id-ID", {
+                        dateStyle: "medium",
+                        timeStyle: "short",
+                      })}
+                    </span>
+                  </div>
+
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="bg-gray-50">
+                        <th className="p-2 border-b">Gambar</th>
+                        <th className="p-2 border-b">Nama Barang</th>
+                        <th className="p-2 border-b">Harga</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {purchase.items.map((item) => (
+                        <tr key={item.id} className="hover:bg-gray-50">
+                          <td className="p-2 border-b">
+                            {item.image ? (
+                              <img
+                                src={item.image}
+                                alt={item.title}
+                                className="w-12 h-12 object-cover rounded"
+                                loading="lazy"
+                              />
+                            ) : (
+                              <div className="w-12 h-12 bg-gray-200 rounded" />
+                            )}
+                          </td>
+                          <td className="p-2 border-b">{item.title}</td>
+                          <td className="p-2 border-b">
+                            $ {item.price.toLocaleString("id-ID")}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
 
-                <div className="flex justify-end">
-                  <span className="text-lg font-semibold">
-                    Total: $ {purchase.total.toLocaleString("id-ID")}
-                  </span>
+                  <div className="flex justify-end">
+                    <span className="text-lg font-semibold">
+                      Total: $ {purchase.total.toLocaleString("id-ID")}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </main>
+              ))}
+            </div>
+          )}
+        </main>
+      </div>
     </div>
   );
 };

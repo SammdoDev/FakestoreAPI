@@ -94,15 +94,15 @@ const AddProduct = () => {
       />
 
       <main className="flex-1 w-full max-h-screen sm:p-6 lg:p-10 overflow-x-auto">
-        <div className="lg:hidden flex items-center justify-between mb-6 fixed bg-white py-4 shadow-lg w-full top-0">
+        <div className="lg:hidden flex items-center justify-between p-4 bg-white shadow-sm">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="p-2 hover:bg-gray-200 rounded-lg"
+            className="p-2 hover:bg-gray-100 rounded-lg"
           >
             <Menu className="w-6 h-6 text-gray-800" />
           </button>
-          <h2 className="text-lg font-semibold text-gray-800">Tambah Produk</h2>
-          <div className="w-6" />
+          <h2 className="text-lg font-semibold text-gray-800">Dashboard</h2>
+          <div className="w-10" />
         </div>
 
         <div className="bg-white p-6 sm:p-8 rounded-xl shadow-md max-w-4xl mx-auto">

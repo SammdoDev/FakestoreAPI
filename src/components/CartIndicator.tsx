@@ -8,7 +8,7 @@ const CartIndicator: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="fixed bottom-0 right-0 mr-4 mb-7 z-50">
+    <div className="fixed bottom-4 right-4 max-sm:bottom-2 max-sm:right-2 z-50">
       <button
         onClick={() => navigate("/checkout")}
         className="relative h-12 w-12 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 shadow-black shadow-md hover:shadow-none transition-shadow"
