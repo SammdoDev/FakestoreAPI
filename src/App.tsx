@@ -24,12 +24,13 @@ import ListProduct from "./admin/listProduct";
 import ListUsers from "./admin/listUsers";
 import ListHistory from "./admin/listHistory";
 
-import "react-toastify/dist/ReactToastify.css";
 import Miscellaneous from "./pages/Miscellaneous";
+import "react-toastify/dist/ReactToastify.css";
 
 const AppLayout = () => {
   const location = useLocation();
   const path = location.pathname;
+  const role = sessionStorage.getItem("role");
 
   const noNavbarPages = [
     "/",
@@ -41,22 +42,56 @@ const AppLayout = () => {
     "/listHistory",
   ];
 
-  const role = sessionStorage.getItem("role");
-  const isAdminPage = path === "/dashboard" && role === "admin";
-  const hideNavbar = noNavbarPages.includes(path) || isAdminPage;
+  const noFooterPages = [
+    "/",
+    "/signUp",
+    "/AddProduct",
+    "/dashboard",
+    "/listProduct",
+    "/listUsers",
+    "/listHistory",
+  ];
 
-  const adminPaths = [
+  const userPages = [
+    "/home",
+    "/clothes",
+    "/electronics",
+    "/furniture",
+    "/shoes",
+    "/miscellaneous",
+    "/checkout",
+    "/invoice",
+    "/history",
+    "/search",
+  ];
+
+  const adminPages = [
     "/dashboard",
     "/AddProduct",
     "/listProduct",
     "/listUsers",
     "/listHistory",
   ];
-  const isAdminArea = adminPaths.includes(path);
+
+  // 🔒 Admin mencoba akses halaman user → redirect ke "/"
+  if (role === "admin" && userPages.includes(path)) {
+    window.location.replace("/"); // langsung ganti URL, tidak render halaman dulu
+    return null; // hentikan render komponen
+  }
+
+  // 🔒 User mencoba akses halaman admin → redirect ke "/"
+  if (role === "user" && adminPages.includes(path)) {
+    window.location.replace("/");
+    return null;
+  }
+
+  const isAdminPage = path === "/dashboard" && role === "admin";
+  const hideNavbar = noNavbarPages.includes(path) || isAdminPage;
 
   return (
     <>
       <ToastContainer position="top-right" autoClose={2000} />
+
       {!hideNavbar && <Navbar />}
       {!hideNavbar && (
         <div className="text-right text-sm text-gray-500 p-2 pr-4">
@@ -66,6 +101,7 @@ const AppLayout = () => {
 
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/signUp" element={<SignUp />} />
         <Route path="/home" element={<Home />} />
         <Route path="/clothes" element={<Clothes />} />
         <Route path="/electronics" element={<Electronics />} />
@@ -76,8 +112,6 @@ const AppLayout = () => {
         <Route path="/invoice" element={<Invoice />} />
         <Route path="/history" element={<History />} />
         <Route path="/search" element={<SearchPage />} />
-        <Route path="/signUp" element={<SignUp />} />
-
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/AddProduct" element={<AddProduct />} />
         <Route path="/listProduct" element={<ListProduct />} />
@@ -85,7 +119,7 @@ const AppLayout = () => {
         <Route path="/listHistory" element={<ListHistory />} />
       </Routes>
 
-      {!isAdminArea && <Footer />}
+      {!noFooterPages.includes(path) && <Footer />}
     </>
   );
 };
