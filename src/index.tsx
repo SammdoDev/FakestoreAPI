@@ -61,7 +61,7 @@ function Index() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-[400px] bg-white p-6 rounded-xl shadow-md space-y-4">
         <h1 className="text-2xl font-bold text-center text-orange-600">
-          Login Aplikasi
+          Login Fakestore
         </h1>
 
         {error && <p className="text-red-500 text-sm">{error}</p>}

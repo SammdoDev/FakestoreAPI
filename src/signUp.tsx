@@ -13,14 +13,14 @@ function SignUp() {
       const res = await fetch("https://api.escuelajs.co/api/v1/users/", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name,
           email,
           password,
-          avatar: "https://i.pravatar.cc/150?u=" + email
-        })
+          avatar: "https://i.pravatar.cc/150?u=" + email,
+        }),
       });
 
       if (!res.ok) throw new Error("Gagal mendaftar.");
@@ -70,6 +70,12 @@ function SignUp() {
         >
           Daftar
         </button>
+        <p className="text-sm text-center">
+          Sudah punya akun?{" "}
+          <a href="/" className="underline text-blue-600">
+            Login
+          </a>
+        </p>
       </div>
     </div>
   );
