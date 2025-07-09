@@ -61,7 +61,7 @@ const Home = () => {
       <Slider {...settings} className="mb-8">
         <div>
           <img
-            src="src/assets/promo1.jpg"
+            src="/src/assets/promo1.jpg"
             className="w-full h-full md:h-[400px] object-contain"
           />
         </div>
